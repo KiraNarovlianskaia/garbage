@@ -15,7 +15,9 @@ class ImageSaver(Node):
         os.makedirs(self.output_dir, exist_ok=True)
         self.vehicle_name = os.getenv('VEHICLE_NAME')
         self.counter = 0
+        self.image_detected = False
         self.create_subscription(CompressedImage, f'/{self.vehicle_name}/image/compressed', self.image_callback, 10)
+
         self.detect_pub = self.create_publisher(
             Bool,
             f'/{self.vehicle_name}/red_object_detected',
@@ -28,13 +30,27 @@ class ImageSaver(Node):
         image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         if image is None:
+
             self.get_logger().warn("Failed to decode image")
+
             return
         if self.detect_object(image):
+            if not self.image_detected:
+                msg = Bool()
+                msg.data = True
+                self.detect_pub.publish(msg)
+            self.image_detected = True
             filename = os.path.join(self.output_dir, f'image_{self.counter}.jpg')
             cv2.imwrite(filename, image)
             self.get_logger().info(f"Object detected! Saved {filename}")
             self.counter += 1
+        else:
+            self.image_detected = False
+            msg = Bool()
+            msg.data = False
+            self.detect_pub.publish(msg)
+
+
 
     def detect_object(self, image):
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)

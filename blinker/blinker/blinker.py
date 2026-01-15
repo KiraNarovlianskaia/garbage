@@ -23,25 +23,31 @@ class RedLED(Node):
         self.create_subscription(
             Bool,
             f'/{self.vehicle_name}/red_object_detected',
-            self.detection_callback,
+            self.callback_function,
             10
         )
 
         # Publish once per second (keeps LEDs solid)
-        self.timer = self.create_timer(1.0, self.publish_pattern)
+        self.timer = None
 
     def publish_pattern(self):
+
         msg = LEDPattern()
         # msg.pattern_name     = "solid_red"
         msg.frequency = 1.0
 
         red = ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0)
 
-
         msg.rgb_vals = [red] * 5
 
         self.publisher.publish(msg)
-
+    def callback_function(self, msg):
+        if msg.data and self.timer is not None:
+            self.timer = self.create_timer(1, self.publish_pattern)
+        else:
+            if self.timer is not None:
+                self.timer.cancel()
+                self.timer = None
 
 def main():
     rclpy.init()
