@@ -19,7 +19,7 @@ class ImageSaver(Node):
         self.get_logger().info('Image Saver Started')
 
     def image_callback(self, msg):
-        np_arr = np.frombuffer(msg.data, np.unit8)
+        np_arr = np.frombuffer(msg.data, np.int8)
         image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         if image is None:
