@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os
 import rclpy
 from rclpy.node import Node
@@ -48,3 +49,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
