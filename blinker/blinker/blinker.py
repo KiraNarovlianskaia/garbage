@@ -3,7 +3,7 @@ import os
 import rclpy
 from rclpy.node import Node
 from duckietown_msgs.msg import LEDPattern
-from std_msgs.msg import ColorRGBA
+from std_msgs.msg import ColorRGBA, Bool
 
 
 class RedLED(Node):
@@ -18,6 +18,13 @@ class RedLED(Node):
             LEDPattern,
             f'/{self.vehicle_name}/led_pattern',
             1
+        )
+
+        self.create_subscription(
+            Bool,
+            f'/{self.vehicle_name}/red_object_detected',
+            self.detection_callback,
+            10
         )
 
         # Publish once per second (keeps LEDs solid)

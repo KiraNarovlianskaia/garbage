@@ -5,6 +5,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import CompressedImage
+from std_msgs.msg import Bool
 
 
 class ImageSaver(Node):
@@ -15,6 +16,11 @@ class ImageSaver(Node):
         self.vehicle_name = os.getenv('VEHICLE_NAME')
         self.counter = 0
         self.create_subscription(CompressedImage, f'/{self.vehicle_name}/image/compressed', self.image_callback, 10)
+        self.detect_pub = self.create_publisher(
+            Bool,
+            f'/{self.vehicle_name}/red_object_detected',
+            10
+        )
         self.get_logger().info('Image Saver Started')
 
     def image_callback(self, msg):
@@ -46,8 +52,6 @@ class ImageSaver(Node):
         red_pixels = cv2.countNonZero(mask)
 
         return red_pixels > 500
-
-
 def main():
     rclpy.init()
     node = ImageSaver()
