@@ -26,7 +26,7 @@ class RedLED(Node):
     def publish_pattern(self):
         msg = LEDPattern()
         # msg.pattern_name     = "solid_red"
-        # msg.frequency = 1.0
+        msg.frequency = 1.0
 
         red = ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0)
 
