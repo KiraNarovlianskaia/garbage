@@ -42,10 +42,14 @@ class RedLED(Node):
 
         self.publisher.publish(msg)
     def callback_function(self, msg):
+        self.get_logger().info(f"Pattern received: {msg.data}")
         if msg.data and self.timer is not None:
+            self.get_logger().info(f"2")
             self.timer = self.create_timer(1, self.publish_pattern)
         else:
+            self.get_logger().info(f"1")
             if self.timer is not None:
+                self.get_logger().info(f"3")
                 self.timer.cancel()
                 self.timer = None
 
