@@ -41,17 +41,27 @@ class RedLED(Node):
         msg.rgb_vals = [red] * 5
 
         self.publisher.publish(msg)
+
     def callback_function(self, msg):
         self.get_logger().info(f"Pattern received: {msg.data}")
-        if msg.data and self.timer is not None:
+        if msg.data:
             self.get_logger().info(f"2")
-            self.timer = self.create_timer(1, self.publish_pattern)
+            # self.timer = self.create_timer(1, self.publish_pattern)
+            msg = LEDPattern()
+            # msg.pattern_name     = "solid_red"
+            # msg.frequency = 1.0
+            red = ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0)
+            msg.rgb_vals = [red] * 5
+            self.publisher.publish(msg)
+
         else:
             self.get_logger().info(f"1")
-            if self.timer is not None:
-                self.get_logger().info(f"3")
-                self.timer.cancel()
-                self.timer = None
+            msg = LEDPattern()
+            # msg.pattern_name     = "solid_red"
+            # msg.frequency = 1.0
+            red = ColorRGBA(r=1.0, g=1.0, b=1.0, a=0.5)
+            msg.rgb_vals = [red] * 5
+            self.publisher.publish(msg)
 
 def main():
     rclpy.init()
