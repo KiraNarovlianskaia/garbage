@@ -17,4 +17,5 @@ RUN set -e; \
     if [ -s requirements-python.txt ]; then \
         pip install -r requirements-python.txt; \
     fi
+RUN  apt-get install ffmpeg libsm6 libxext6  -y
 
