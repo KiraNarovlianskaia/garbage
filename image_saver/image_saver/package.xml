@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd"
+             schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+
+  <name>image_saver</name>
+  <version>1.0.0</version>
+
+  <description>
+    Package which saves images from robot camera using OpenCV object detection
+  </description>
+
+  <maintainer email="ilia.nechaev@jetbrains.com">Ilia Nechaev</maintainer>
+  <maintainer email="lankford@mit.edu">Gage Lankford</maintainer>
+  <maintainer email="apados@mit.edu">Artemis Pados</maintainer>
+
+  <license>GPLv3</license>
+
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+
+</package>

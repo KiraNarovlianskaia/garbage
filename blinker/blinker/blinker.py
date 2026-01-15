@@ -30,7 +30,7 @@ class RedLED(Node):
 
         red = ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0)
 
-        # Duckiebot has 5 LEDs
+
         msg.rgb_vals = [red] * 5
 
         self.publisher.publish(msg)
