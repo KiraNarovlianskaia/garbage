@@ -30,19 +30,18 @@ class ImageSaver(Node):
         image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         if image is None:
-
             self.get_logger().warn("Failed to decode image")
-
             return
+
         if self.detect_object(image):
             if not self.image_detected:
                 msg = Bool()
                 msg.data = True
                 self.detect_pub.publish(msg)
+                filename = os.path.join(self.output_dir, f'image_{self.counter}.jpg')
+                cv2.imwrite(filename, image)
+                self.get_logger().info(f"Object detected! Saved {filename}")
             self.image_detected = True
-            filename = os.path.join(self.output_dir, f'image_{self.counter}.jpg')
-            cv2.imwrite(filename, image)
-            self.get_logger().info(f"Object detected! Saved {filename}")
             self.counter += 1
         else:
             self.image_detected = False
@@ -66,6 +65,7 @@ class ImageSaver(Node):
         mask = mask1 | mask2
 
         red_pixels = cv2.countNonZero(mask)
+        self.get_logger().info(f"Red pixels: {red_pixels}")
 
         return red_pixels > 750
 def main():
