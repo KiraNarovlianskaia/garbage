@@ -55,10 +55,10 @@ class ImageSaver(Node):
     def detect_object(self, image):
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-        lower_red1 = np.array([0,120,70])
-        upper_red1 = np.array([10,255,255])
+        lower_red1 = np.array([0,160,80])
+        upper_red1 = np.array([8,255,255])
 
-        lower_red2 = np.array([170,120,70])
+        lower_red2 = np.array([172,160,80])
         upper_red2 = np.array([180,255,255])
 
         mask1 = cv2.inRange(hsv, lower_red1, upper_red1)
@@ -67,7 +67,7 @@ class ImageSaver(Node):
 
         red_pixels = cv2.countNonZero(mask)
 
-        return red_pixels > 500
+        return red_pixels > 750
 def main():
     rclpy.init()
     node = ImageSaver()
