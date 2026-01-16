@@ -67,7 +67,7 @@ class ImageSaver(Node):
         red_pixels = cv2.countNonZero(mask)
         self.get_logger().info(f"Red pixels: {red_pixels}")
 
-        return red_pixels > 750
+        return red_pixels > 500
 def main():
     rclpy.init()
     node = ImageSaver()
